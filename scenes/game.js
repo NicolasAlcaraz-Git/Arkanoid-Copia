@@ -1,46 +1,51 @@
-// URL to explain PHASER scene: https://rexrainbow.github.io/phaser3-rex-notes/docs/site/scene/
-
-export default class game extends Phaser.Scene {
+class Game extends Phaser.Scene {
   constructor() {
-    // key of the scene
-    // the key will be used to start the scene by other scenes
-    super("game");
+    super("Game");
   }
-
-  init() {
-    // this is called before the scene is created
-    // init variables
-    // take data passed from other scenes
-    // data object param {}
-  }
-
-  preload() {
-    // load assets
-    this.load.image("sky", "./assets/space3.png");
-    this.load.image("logo", "./assets/phaser3-logo.png");
-    this.load.image("red", "./assets/particles/red.png");
-  }
-
   create() {
-    // create game objects
-    this.add.image(400, 300, "sky");
+    // creacion de la barra
+    this.paddle = this.add.rectangle(400, 550, 100, 20, 0x00ff00);
+    this.physics.add.existing(this.paddle, true);
 
-    const logo = this.physics.add.image(400, 100, "logo");
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
+    // creacion de la pelota
+    this.ball = this.add.circle(400, 300, 10, 0xffffff);
+    this.physics.add.existing(this.ball);
+    this.ball.body.setCollideWorldBounds(true, 1, 1); // la pelota rebota en las paredes
+    this.ball.body.setBounce(1, 1);
+    this.ball.body.setVelocity(250, -250); // la velocidad inicial de la pelota
 
-    // emmit particles from logo
-    const emitter = this.add.particles(0, 0, "red", {
-      speed: 100,
-      scale: { start: 1, end: 0 },
-      blendMode: "ADD",
-    });
+    // creacion de los ladrillos
+    this.bricks = this.physics.add.staticGroup();       // grupo de ladrillos estáticos
+    for (let x = 80; x < 720; x += 60) {                // crear ladrillos en fila
+      for (let y = 50; y < 200; y += 30) {              // crear ladrillos en columna
+        let brick = this.add.rectangle(x, y, 50, 20, 0xff0000);
+        this.bricks.add(brick);
+      }
+    }
 
-    emitter.startFollow(logo);
+    // grupos de colisiones
+    this.physics.add.collider(this.ball, this.paddle);
+    this.physics.add.collider(this.ball, this.bricks, this.hitBrick, null, this);
+
+    // controles del juego
+    this.cursors = this.input.keyboard.createCursorKeys();
+  }
+  update() {
+    // codigo para controles del juego
+    if (this.cursors.left.isDown) {
+      this.paddle.x -= 5;
+    } else if (this.cursors.right.isDown) {
+      this.paddle.x += 5;
+    }
+
+    // mantener la barra dentro de la pantalla
+    if (this.paddle.x < 50) this.paddle.x = 50;
+    if (this.paddle.x > 750) this.paddle.x = 750;
+    this.paddle.body.updateFromGameObject(this.paddle);
   }
 
-  update() {
-    // update game objects
+  hitBrick(ball, brick) {
+    brick.destroy(); // eliminar ladrillo al ser golpeado
   }
 }
+export default Game;
