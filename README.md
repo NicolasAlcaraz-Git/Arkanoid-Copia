@@ -12,3 +12,6 @@ Objetivo: Crear una réplica del videojuego Arkanoid. Lo denominaremos BREAK BRI
 - la pelota tiene una velocidad inicial.
 - la pelota debe moverse y rebotar en las paredes del juego.
 - la pelota destruye el obstáculo al colisionar.
+
+## Link al juego:
+https://nicolasalcaraz-git.github.io/Arkanoid-Copia/
