@@ -3,20 +3,13 @@ import game from "./scenes/game.js";
 // Create a new Phaser config object
 const config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
-  backgroundColor: "#000000",
+  width: 800,         // ancho de la pantalla del juego
+  height: 600,        // alto de la pantalla del juego
   scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-    min: {
-      width: 800,
-      height: 600,
-    },
-    max: {
-      width: 1600,
-      height: 1200,
-    },
+    mode: Phaser.Scale.FIT,                // modo de escala, FIT ajusta el juego al tamaño de la pantalla
+    autoCenter: Phaser.Scale.CENTER_BOTH,  // centra el juego en la pantalla
+    min: { width: 16, height: 9 },         // tamaño mínimo de la pantalla
+    max: { width: 1920, height: 1080 },    // tamaño máximo de la pantalla
   },
   physics: {
     default: "arcade",

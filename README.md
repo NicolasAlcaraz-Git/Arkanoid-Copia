@@ -1,4 +1,4 @@
-## Trabajo Práctico Módulo 3
+## Trabajo Práctico Módulo 3 - Alcaraz Nicolás
 
 Objetivo: Crear una réplica del videojuego Arkanoid. Lo denominaremos BREAK BRICK .
 
